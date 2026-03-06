@@ -9,7 +9,7 @@ export function Header() {
         </div>
         <div>
           <h1 className="text-base font-semibold text-foreground leading-tight">
-            Python Initializr
+            Python Initializer
           </h1>
           <p className="text-xs text-muted-foreground">
             Bootstrap your Python project
@@ -17,7 +17,7 @@ export function Header() {
         </div>
       </div>
       <a
-        href="https://github.com"
+        href="https://github.com/ephym-lab/pyinitializer"
         target="_blank"
         rel="noopener noreferrer"
         className="text-muted-foreground transition-colors hover:text-foreground"

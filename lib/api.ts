@@ -53,7 +53,7 @@ export async function downloadZip(
 export async function downloadScript(
   config: ProjectConfig
 ): Promise<string> {
-  const res = await fetch(`${API_URL}/generate/script`, {
+  const res = await fetch(`${API_URL}/api/v1/projects/script`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(config),
