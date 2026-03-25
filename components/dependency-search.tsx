@@ -17,7 +17,7 @@ export function DependencySearch({ onSelect, selected }: DependencySearchProps) 
   const [open, setOpen] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>();
+
 
   const doSearch = useCallback(
     async (q: string) => {
@@ -45,9 +45,12 @@ export function DependencySearch({ onSelect, selected }: DependencySearchProps) 
 
   const handleChange = (value: string) => {
     setQuery(value);
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => doSearch(value), 250);
+    if (value.length === 0) {
+      setResults([]);
+      setOpen(false);
+    }
   };
+
 
   const handleSelect = (pkg: string) => {
     onSelect(pkg);
@@ -57,20 +60,26 @@ export function DependencySearch({ onSelect, selected }: DependencySearchProps) 
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!open) return;
-    if (e.key === "ArrowDown") {
+    if (e.key === "Enter") {
       e.preventDefault();
-      setHighlightIndex((i) => Math.min(i + 1, results.length - 1));
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setHighlightIndex((i) => Math.max(i - 1, 0));
-    } else if (e.key === "Enter" && highlightIndex >= 0) {
-      e.preventDefault();
-      handleSelect(results[highlightIndex]);
-    } else if (e.key === "Escape") {
-      setOpen(false);
+      if (open && highlightIndex >= 0) {
+        handleSelect(results[highlightIndex]);
+      } else {
+        doSearch(query);
+      }
+    } else if (open) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.min(i + 1, results.length - 1));
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setHighlightIndex((i) => Math.max(i - 1, 0));
+      } else if (e.key === "Escape") {
+        setOpen(false);
+      }
     }
   };
+
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -105,11 +114,10 @@ export function DependencySearch({ onSelect, selected }: DependencySearchProps) 
               <li key={pkg}>
                 <button
                   type="button"
-                  className={`flex w-full items-center px-3 py-1.5 text-sm transition-colors ${
-                    i === highlightIndex
+                  className={`flex w-full items-center px-3 py-1.5 text-sm transition-colors ${i === highlightIndex
                       ? "bg-accent text-accent-foreground"
                       : "text-popover-foreground hover:bg-accent hover:text-accent-foreground"
-                  }`}
+                    }`}
                   onClick={() => handleSelect(pkg)}
                   onMouseEnter={() => setHighlightIndex(i)}
                 >
