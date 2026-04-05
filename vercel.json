@@ -1,5 +1,8 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "http://129.212.244.90:8000/:path*" }
+    { "source": "/preview", "destination": "http://129.212.244.90:8000/preview" },
+    { "source": "/search/packages", "destination": "http://129.212.244.90:8000/search/packages" },
+    { "source": "/api/v1/projects/zip", "destination": "http://129.212.244.90:8000/api/v1/projects/zip" },
+    { "source": "/api/v1/projects/script", "destination": "http://129.212.244.90:8000/api/v1/projects/script" }
   ]
 }
