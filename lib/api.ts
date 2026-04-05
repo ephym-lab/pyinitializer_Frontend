@@ -1,6 +1,7 @@
 import type { ProjectConfig, PreviewResponse, SearchResponse } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
+console.log("API_URL:", API_URL);
 
 export async function searchPackages(
   query: string,
